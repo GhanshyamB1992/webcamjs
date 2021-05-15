@@ -1,0 +1,44 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="Webcam.js"></script>
+<script>
+$(document).ready(function () {
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#webcam');
+
+    $("#btnCapture").click(function () {
+      
+        Webcam.snap(function (data_uri) {
+               $(".imgList").append('<img src="' + data_uri + '"/>');
+        });
+    });
+	$("#btnStart").click(function () {
+      
+        Webcam.start();
+    });
+	$("#btnStop").click(function () {
+      
+        Webcam.stop();
+    });
+});
+</script>
+<html>
+	<div>	
+		<div id="webcam"></div>
+		<input type="button" id="btnCapture" class="btn btn-info" value="Capture" />
+		<input type="button" id="btnStart" class="btn btn-info" value="srart" />
+		<input type="button" id="btnStop" class="btn btn-info" value="stop" />
+	</div>	
+	<div>
+		<h1>Video Player</h1>
+		<video id="preview" width="240" height="180" autoplay controls></video>
+	</div>
+    <div>
+		<h1>Images</h1>    
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 imgList"></div>
+	</div>
+</html>
