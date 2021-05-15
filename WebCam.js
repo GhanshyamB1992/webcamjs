@@ -27,18 +27,10 @@
         this.message = temp.message;
     }
 
-    function generateRecordingPreview(rec, tabId, uploadid) {
+    function generateRecordingPreview(rec) {
         let mediaBlob = new Blob(mediaChunks, { type: "video/webm" });
         let mediaBlobUrl = URL.createObjectURL(mediaBlob);
-
-        var reader = new FileReader();
-        reader.readAsDataURL(mediaBlob);
-        reader.onloadend = function () {
-            var base64data = reader.result;
-            localStorage.setItem(tabId, base64data);
-            $("#" + tabId).find("#" + uploadid).removeAttr("disabled");
-        }
-
+		
         let recordingPreview = document.getElementById(rec);
         recordingPreview.src = mediaBlobUrl;
     }
@@ -1049,7 +1041,7 @@
             // send data to server
             http.send(form);
         },
-        start: function (rec, tabId,uploadid) {
+        start: function (rec) {
             if (this.userMedia) {
                 if (this.stream) {
                     mediaRecorder = new MediaRecorder(this.stream);
@@ -1058,7 +1050,7 @@
                     mediaRecorder.ondataavailable = function (event) {
                         mediaChunks.push(event.data);
                         if (mediaRecorder.state == "inactive") {
-                            generateRecordingPreview(rec, tabId, uploadid);
+                            generateRecordingPreview(rec);
                         }
                     };
                     mediaRecorder.start();
